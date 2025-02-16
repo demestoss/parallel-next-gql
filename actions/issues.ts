@@ -1,6 +1,7 @@
 "use server";
 
 import { CreateIssueMutation } from "@/gql/createIssueMutation";
+import { DeleteIssueMutation } from "@/gql/deleteIssueMutation";
 import { EditIssueMutation } from "@/gql/editIssueMutation";
 import { getClient } from "@/utils/graphqlClient";
 import { revalidateTag } from "next/cache";
@@ -41,6 +42,17 @@ export const setIssueStatus = async (id: string, status: IssueStatus) => {
 
 	if (result.error) {
 		return { message: "Failed to update issue" };
+	}
+
+	revalidateTag("issues");
+};
+
+export const deleteIssue = async (id: string) => {
+	const client = await getClient();
+	const result = await client.mutation(DeleteIssueMutation, { id }).toPromise();
+
+	if (result.error) {
+		return { message: "Failed to delete issue" };
 	}
 
 	revalidateTag("issues");

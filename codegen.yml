@@ -1,0 +1,13 @@
+overwrite: true
+schema: "./app/api/graphql/schema.graphql"
+generates:
+  ./gql/types.ts:
+    plugins:
+      - "typescript"
+      - "typescript-resolvers"
+    config:
+      contextType: "../types#GQLContext"
+      mappers:
+        IssueStatus: "./types.mapper#DBIssueStatus"
+      enumValues:
+        IssueStatus: "./types.mapper#DBIssueStatus"

@@ -1,8 +1,9 @@
 import { IssuesQuery } from "@/gql/issuesQuery";
+import type { Issue } from "@/gql/types";
 import { getClient } from "@/utils/graphqlClient";
 import { unstable_cache } from "next/cache";
 import type { Client } from "urql";
-import Issue from "../_components/Issue";
+import IssueItem from "../_components/IssueItem";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
@@ -17,7 +18,7 @@ const getAllIssues = unstable_cache(
 				},
 			})
 			.toPromise();
-		return res.data.issues;
+		return res.data.issues as Issue[];
 	},
 	[],
 	{
@@ -36,7 +37,7 @@ export default async function IssuesPage({
 		<div>
 			{issues.map((issue) => (
 				<div key={issue.id}>
-					<Issue issue={issue} />
+					<IssueItem issue={issue} />
 				</div>
 			))}
 		</div>

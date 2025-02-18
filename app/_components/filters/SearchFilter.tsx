@@ -18,7 +18,7 @@ export default function SearchFilter() {
 			size={"sm"}
 			className="w-[240px]"
 			variant={"flat"}
-			value={search}
+			value={search || ""}
 			onChange={(e) => setSearch(e.target.value)}
 		/>
 	);

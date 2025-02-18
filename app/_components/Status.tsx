@@ -1,6 +1,7 @@
 "use client";
 
-import { type IssueStatus, setIssueStatus } from "@/actions/issues";
+import { setIssueStatus } from "@/actions/issues";
+import type { IssueStatusType } from "@/gql/types.mapper";
 import {
 	Dropdown,
 	DropdownItem,
@@ -13,12 +14,12 @@ import StatusRing from "./StatusRing";
 const Status = ({
 	status,
 	issueId,
-}: { status: IssueStatus; issueId: string }) => {
+}: { status: IssueStatusType; issueId: string }) => {
 	const [optimisticStatus, setOptimisticStatus] =
-		useOptimistic<IssueStatus>(status);
+		useOptimistic<IssueStatusType>(status);
 	const [isPending, startTransition] = useTransition();
 
-	const onAction = (newStatus: IssueStatus) => {
+	const onAction = (newStatus: IssueStatusType) => {
 		startTransition(() => {
 			setOptimisticStatus(newStatus);
 			setIssueStatus(issueId, newStatus);
@@ -59,16 +60,22 @@ const Status = ({
 				<DropdownItem
 					key="BACKLOG"
 					startContent={<StatusRing status={"BACKLOG"} />}
+					textValue={"BACKLOG"}
 				>
 					<span>Backlog</span>
 				</DropdownItem>
 				<DropdownItem
 					key="INPROGRESS"
 					startContent={<StatusRing status={"INPROGRESS"} />}
+					textValue={"INPROGRESS"}
 				>
 					<span>In Progress</span>
 				</DropdownItem>
-				<DropdownItem key="DONE" startContent={<StatusRing status={"DONE"} />}>
+				<DropdownItem
+					key="DONE"
+					startContent={<StatusRing status={"DONE"} />}
+					textValue={"DONE"}
+				>
 					<span>Done</span>
 				</DropdownItem>
 			</DropdownMenu>

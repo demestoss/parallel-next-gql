@@ -3,6 +3,7 @@
 import { CreateIssueMutation } from "@/gql/createIssueMutation";
 import { DeleteIssueMutation } from "@/gql/deleteIssueMutation";
 import { EditIssueMutation } from "@/gql/editIssueMutation";
+import type { IssueStatusType } from "@/gql/types.mapper";
 import { getClient } from "@/utils/graphqlClient";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
@@ -32,9 +33,7 @@ export const createIssue = async (_: any, formData: FormData) => {
 	redirect("/");
 };
 
-export type IssueStatus = "BACKLOG" | "INPROGRESS" | "DONE";
-
-export const setIssueStatus = async (id: string, status: IssueStatus) => {
+export const setIssueStatus = async (id: string, status: IssueStatusType) => {
 	const client = await getClient();
 	const result = await client
 		.mutation(EditIssueMutation, { input: { id, status } })

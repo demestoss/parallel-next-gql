@@ -17,8 +17,9 @@ export default function useFilter<T extends FilterName>(name: T) {
 			case "statuses":
 				return (searchParams.getAll(name) || []) as FilterValue<T>;
 			case "search":
-			case "sortedBy":
 				return searchParams.get(name) as FilterValue<T>;
+			case "sortedBy":
+				return new Set([searchParams.get(name)]) as unknown as FilterValue<T>;
 		}
 	});
 

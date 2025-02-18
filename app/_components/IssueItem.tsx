@@ -1,8 +1,9 @@
 import DeleteIssueButton from "@/app/_components/DeleteIssueButton";
+import type { Issue } from "@/gql/types";
 import Status from "./Status";
 
-const Issue = ({ issue }) => {
-	const displayId = issue.id.split("-").pop().slice(-3);
+const IssueItem = ({ issue }: { issue: Issue }) => {
+	const displayId = issue.id.split("-").pop()?.slice(-3);
 
 	return (
 		<div className="group px-4 h-[40px] border-b flex items-center hover:bg-slate-50 justify-between">
@@ -21,4 +22,4 @@ const Issue = ({ issue }) => {
 	);
 };
 
-export default Issue;
+export default IssueItem;

@@ -1,14 +1,15 @@
+import { db } from "@/db/db";
+import type { GQLContext } from "@/types";
 import { getUserFromToken } from "@/utils/auth";
-import { tokenKey } from "@/utils/token";
 import { ApolloServer } from "@apollo/server";
 import {
 	ApolloServerPluginLandingPageLocalDefault,
 	ApolloServerPluginLandingPageProductionDefault,
 } from "@apollo/server/plugin/landingPage/default";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import type { NextRequest } from "next/server";
-import resolvers from "./resolvers";
-import typeDefs from "./schema";
+import { type NextRequest, NextResponse } from "next/server";
+import { resolvers } from "./resolvers";
+import typeDefs from "./schema.graphql";
 
 let plugins = [];
 if (process.env.NODE_ENV === "production") {
@@ -19,26 +20,34 @@ if (process.env.NODE_ENV === "production") {
 		}),
 	];
 } else {
-	plugins = [ApolloServerPluginLandingPageLocalDefault({ embed: true })];
+	plugins = [
+		ApolloServerPluginLandingPageLocalDefault({
+			embed: true,
+		}),
+	];
 }
 
-const server = new ApolloServer({
+const server = new ApolloServer<GQLContext>({
 	resolvers,
-	typeDefs,
 	plugins,
+	typeDefs,
 });
 
-const handler = startServerAndCreateNextHandler<NextRequest>(server, {
-	context: async (req) => {
-		const authHeader = req.headers.get("Authorization");
-		const token = authHeader?.replace("Bearer ", "").trim();
-		const user = await getUserFromToken(token);
-		return {
-			req,
-			user,
-		};
+const handler = startServerAndCreateNextHandler<NextRequest, GQLContext>(
+	server,
+	{
+		context: async (req) => {
+			const authHeader = req.headers.get("Authorization");
+			const token = authHeader?.replace("Bearer ", "").trim();
+			const user = await getUserFromToken(token);
+			return {
+				req,
+				user,
+				db,
+			};
+		},
 	},
-});
+);
 
 export async function GET(request: NextRequest) {
 	return handler(request);

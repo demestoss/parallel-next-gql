@@ -3,7 +3,7 @@ import { getToken } from "@/utils/token";
 import { cache } from "react";
 import { cacheExchange, createClient, fetchExchange } from "urql";
 
-const url = process.env.APP_URL ?? "http://localhost:3001/api/graphql";
+const url = process.env.APP_URL ?? "http://localhost:3000/api/graphql";
 
 export const graphqlClient = async (
 	query: string,

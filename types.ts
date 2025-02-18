@@ -1,3 +1,12 @@
+import type { Database } from "@/db/db";
+
+export type GQLContextUser = {
+	createdAt: string;
+	email: string;
+	id: string;
+};
+
 export type GQLContext = {
-  user?: { id: string; email: string; createdAt: string } | null
-}
+	user: GQLContextUser | null;
+	db: Database;
+};

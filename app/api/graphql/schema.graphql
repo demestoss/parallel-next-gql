@@ -1,78 +1,78 @@
 type Issue {
-    id: ID!
-    name: String!
-    content: String!
-    userId: ID!
-    projectId: ID
-    user: User!
-    status: IssueStatus
+	id: ID!
+	name: String!
+	content: String!
+	userId: ID!
+	projectId: ID
+	user: User!
+	status: IssueStatus
 }
 
 input CreateIssueInput {
-    name: String!
-    content: String!
-    status: IssueStatus
+	name: String!
+	content: String!
+	status: IssueStatus
 }
 
 enum IssueStatus {
-    DONE
-    TODO
-    INPROGRESS
-    BACKLOG
+	DONE
+	TODO
+	INPROGRESS
+	BACKLOG
 }
 
 type UserProfile {
-    id: ID!
-    email: String!
-    createdAt: String!
+	id: ID!
+	email: String!
+	createdAt: String!
 }
 
 type AuthUser {
-    id: ID!
-    email: String!
-    createdAt: String!
-    token: String!
+	id: ID!
+	email: String!
+	createdAt: String!
+	token: String!
 }
 
 type User {
-    id: ID!
-    email: String!
-    createdAt: String!
-    issues: [Issue]!
+	id: ID!
+	email: String!
+	createdAt: String!
+	issues: [Issue]!
 }
 
 enum IssueSort {
-    CREATED_AT
-    STATUS
+	CREATED_AT
+	STATUS
 }
 
 input IssuesFilterInput {
-    statuses: [IssueStatus]
-    sortedBy: IssueSort
-    search: String
+	statuses: [IssueStatus]
+	sortedBy: IssueSort
+	search: String
 }
 
 input EditIssueInput {
-    id: ID!
-    name: String
-    content: String
-    status: IssueStatus
+	id: ID!
+	name: String
+	content: String
+	status: IssueStatus
 }
 
 input AuthInput {
-    email: String!
-    password: String!
+	email: String!
+	password: String!
 }
 
 type Query {
-    me: UserProfile
-    issues(input: IssuesFilterInput): [Issue]!
+	me: UserProfile
+	issues(input: IssuesFilterInput): [Issue]!
 }
 
 type Mutation {
-    signin(input: AuthInput!): AuthUser
-    createUser(input: AuthInput!): AuthUser
-    createIssue(input: CreateIssueInput!): Issue
-    editIssue(input: EditIssueInput!): Issue
-    deleteIssue(id: ID!): ID!
+	signin(input: AuthInput!): AuthUser
+	createUser(input: AuthInput!): AuthUser
+	createIssue(input: CreateIssueInput!): Issue
+	editIssue(input: EditIssueInput!): Issue
+	deleteIssue(id: ID!): ID!
 }

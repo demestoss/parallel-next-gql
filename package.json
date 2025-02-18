@@ -6,7 +6,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint",
+		"lint": "biome check --write",
 		"db:push": "drizzle-kit push --config ./drizzle.config.ts",
 		"db:studio": "drizzle-kit studio",
 		"generate": "gql-gen --config codegen.yml"
